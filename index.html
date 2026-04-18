@@ -3,35 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archaeology Image Collection System</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.webmanifest">
+    <title>考古影像采集系统</title>
 </head>
 <body>
-    <header>
-        <h1>Archaeology Image Collection System</h1>
-    </header>
-    <main>
-        <section id="image-collection">
-            <h2>Image Collection</h2>
-            <div class="image-grid">
-                <!-- Example images; replace with actual image paths -->
-                <div class="image-item">
-                    <img src="images/image1.jpg" alt="Image 1">
-                    <p>Image Description 1</p>
-                </div>
-                <div class="image-item">
-                    <img src="images/image2.jpg" alt="Image 2">
-                    <p>Image Description 2</p>
-                </div>
-                <div class="image-item">
-                    <img src="images/image3.jpg" alt="Image 3">
-                    <p>Image Description 3</p>
-                </div>
-            </div>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2026 Archaeology Image Collection System</p>
-    </footer>
+    <h1>欢迎使用考古影像采集系统</h1>
+    <script>
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(function() {
+                    console.log('Service Worker registered successfully.');
+                })
+                .catch(function(error) {
+                    console.log('Service Worker registration failed:', error);
+                });
+        }
+
+        // IndexedDB example to store data
+        let db;
+        const request = indexedDB.open('archaeologyDB', 1);
+
+        request.onupgradeneeded = function(event) {
+            db = event.target.result;
+            const objectStore = db.createObjectStore('images', {keyPath: 'id'});
+            objectStore.createIndex('url', 'url', {unique: true});
+        };
+
+        request.onsuccess = function(event) {
+            db = event.target.result;
+            console.log('Database opened successfully.');
+        };
+
+        // Function to export data as ZIP (placeholder)
+        function exportData() {
+            console.log('Export data function to be implemented.');
+        }
+    </script>
 </body>
 </html>
